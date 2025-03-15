@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tribute Page</title>
+    <style>
+        /* Existing styles remain unchanged */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text */
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        nav ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffc400;
+        }
+
+        main {
+            width: 90%;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode main {
+            background-color: #1e1e1e; /* Dark main background */
+            color: #e0e0e0; /* Light text */
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .intro h2 {
+            font-size: 2rem;
+            color: #555;
+        }
+
+        body.dark-mode .intro h2 {
+            color: #ddd; /* Light color for headings in dark mode */
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 70%;
+            max-width: 400px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-input:hover,
+        .search-input:focus {
+            border-color: #333;
+            box-shadow: 0 0 5px rgba(51, 51, 51, .5);
+        }
+
+        body.dark-mode .search-input {
+            border-color: #555; /* Darker border in dark mode */
+            background-color: #333; /* Dark background for input */
+            color: #fff; /* Light text for input */
+        }
+
+        .search-button {
+            padding: 0.75rem 1.25rem;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform .2s;
+            margin-left: 0.5rem;
+        }
+
+        .search-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        body.dark-mode .search-button {
+            background-color: #555; /* Darker button in dark mode */
+        }
+
+        #search-result {
+            padding: 1rem;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            animation: fadedown .5s forwards;
+        }
+
+        body.dark-mode #search-result {
+            background-color: #444; /* Dark background for search result */
+            color: #e0e0e0; /* Light text for search result */
+        }
+
+        #search-result h3 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        body.dark-mode #search-result h3 {
+            color: #ddd; /* Light color for headings in dark mode */
+        }
+
+        #tribute {
+            display: none;
+            animation: fadeIn .5s ease-in-out;
+            flex-direction: column;
+        }
+
+        #tribute h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #222;
+        }
+
+        body.dark-mode #tribute h1 {
+            color: #e0e0e0; /* Light color for tribute title in dark mode */
+        }
+
+        #img {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        #image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+        }
+
+        #caption {
+            display: block;
+            font-style: italic;
+            color: #777;
+            margin-top: .5rem;
+        }
+
+        body.dark-mode #caption {
+            color: #bbb; /* Light color for caption in dark mode */
+        }
+
+        #tribute-data {
+            line-height: 1.6;
+            padding: .75rem;
+            background-color: #f9f9f9;
+            border-radius: .25rem;
+            box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .15);
+        }
+
+        body.dark-mode #tribute-data {
+            background-color: #444; /* Dark background for tribute data */
+            color: #e0e0e0; /* Light text for tribute data */
+        }
+
+        .photo-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            padding: .75rem;
+            gap: .75rem;
+            margin-top: .5rem;
+        }
+
+        .photo-gallery img {
+            width: 200px;
+            height: auto;
+            border-radius: .25rem;
+            box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .15);
+        }
+
+        footer {
+            text-align: center;
+            padding: .75rem;
+            background-color: #333;
+            color: white;
+        }
+
+        body.dark-mode footer {
+            background-color: #222; /* Darker footer in dark mode */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .links {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .links {
+            background-color: #444; /* Dark background for links */
+            color: #e0e0e0; /* Light text for links */
+        }
+
+        .links a {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            text-decoration: none;
+        }
+
+        body.dark-mode .links a {
+            color: #e0e0e0; /* Light color for links in dark mode */
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .search-history {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        body.dark-mode .search-history {
+            background-color: #444; /* Dark background for search history */
+            color: #e0e0e0; /* Light text for search history */
+        }
+
+        .search-history h3 {
+            margin-top: 0;
+        }
+
+        body.dark-mode .search-history h3 {
+            color: #ddd; /* Light color for headings in dark mode */
+        }
+
+        .search-history ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .search-history li {
+            margin: 0.5rem 0;
+        }
+
+        .search-history a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        body.dark-mode .search-history a {
+            color: #e0e0e0; /* Light color for links in dark mode */
+        }
+
+        .search-history a:hover {
+            text-decoration: underline;
+        }
+
+        .clear-history-button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .clear-history-button:hover {
+            background-color: darkred;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #333;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Dark Mode Button */
+        .dark-mode-button {
+            padding: 0.5rem 1rem;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .dark-mode-button:hover {
+            background-color: #666;
+        }
+
+        /* Favorites Section */
+        .favorites {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        body.dark-mode .favorites {
+            background-color: #444; /* Dark background for favorites */
+            color: #e0e0e0; /* Light text for favorites */
+        }
+
+        .favorites h3 {
+            margin-top: 0;
+        }
+
+        body.dark-mode .favorites h3 {
+            color: #ddd; /* Light color for headings in dark mode */
+        }
+
+        .favorites ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .favorites li {
+            margin: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .favorites a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        body.dark-mode .favorites a {
+            color: #e0e0e0; /* Light color for links in dark mode */
+        }
+
+        .favorites a:hover {
+            text-decoration: underline;
+        }
+
+        .remove-favorite-button {
+            padding: 0.25rem 0.5rem;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 1rem;
+        }
+
+        .remove-favorite-button:hover {
+            background-color: darkred;
+        }
+
+        /* Comment Section */
+        .comment-section {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .comment-section {
+            background-color: #444; /* Dark background for comments */
+            color: #e0e0e0; /* Light text for comments */
+        }
+
+        .comment-section h3 {
+            margin-top: 0;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .comment-button {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comment-button:hover {
+            background-color: #555;
+        }
+
+        .comments-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comments-list li {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background-color: #e9e9e9;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to the Tribute Page</h1>
+        <nav>
+            <ul>
+                <li><button class="search-button" onclick="showHome()">Home</button></li>
+                <li><button class="dark-mode-button" onclick="toggleDarkMode()">Toggle Dark Mode</button></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="home">
+        <section class="intro">
+            <h2>About This Project</h2>
+            <p>Welcome to our tribute page project! Here, you can search for notable figures and view detailed tributes to their contributions. Use the search bar below to get started.</p>
+        </section>
+        <div class="search-container">
+            <input type="text" class="search-input" id="search-input" placeholder="Search for a person..." onkeypress="checkEnter(event)">
+            <button class="search-button" onclick="searchPerson()">Search</button>
+        </div>
+        <div id="search-result" class="highlight">
+            <h3>Search Results</h3>
+            <p>Start by entering the name of a notable figure you want to learn about.</p>
+        </div>
+
+        <!-- Search History Section -->
+        <div class="search-history" id="search-history">
+            <h3>Recent Searches</h3>
+            <ul id="history-list"></ul>
+            <button class="clear-history-button" onclick="clearSearchHistory()">Clear History</button>
+        </div>
+    </main>
+
+    <main id="tribute" style="display:none;">
+        <div class="links" id="links-container">
+            <h3>Links</h3>
+            <a href="#summary">Summary</a>
+            <a href="#childhood">Childhood</a>
+            <a href="#career">Career</a>
+            <a href="#achievements">Achievements</a>
+        </div>
+        <h1 id="title"></h1>
+        <div id="img">
+            <img src="" id="image" alt="Image not available">
+            <small id="caption"></small>
+        </div>
+        <div id="tribute-data">
+            <h2 id="summary">Summary</h2>
+            <p id="summary-text"></p>
+            <h2 id="childhood">Childhood</h2>
+            <p id="childhood-text"></p>
+            <h2 id="career">Career</h2>
+            <p id="career-text"></p>
+            <h2 id="achievements">Achievements</h2>
+            <p id="achievements-text"></p>
+        </div>
+        <br>
+        <div class="photo-gallery" id="photo-gallery"></div>
+
+        <!-- Add to Favorites Button -->
+        <button class="search-button" id="add-favorite-button" onclick="addToFavorites()" style="display:none;">Add to Favorites</button>
+
+        <!-- Favorites Section -->
+        <div class="favorites">
+            <h3>Favorites</h3>
+            <ul id="favorites-list"></ul>
+        </div>
+
+        <!-- Comment Section -->
+        <div class="comment-section">
+            <h3>Comments</h3>
+            <input type="text" class="comment-input" id="comment-input" placeholder="Add a comment...">
+            <button class="comment-button" onclick="addComment()">Submit</button>
+            <ul class="comments-list" id="comments-list"></ul>
+        </div>
+
+        <p>
+            <small>Developed by @<a href="#">  BATCH-12 </a></small>
+        </p>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Tribute Page Project. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+        // Load search history, favorites, and comments on page load
+        window.onload = function() {
+            updateSearchHistory();
+            updateFavorites();
+            loadComments();
+        };
+
+        async function searchPerson() {
+            const input = document.getElementById('search-input').value.trim();
+            if (!input) {
+                document.getElementById('search-result').innerHTML = '<p>Please enter a name.</p>';
+                return;
+            }
+
+            // Clear previous search results
+            document.getElementById('search-result').innerHTML = '<h3>Search Results</h3><p>Loading...</p><div class="spinner"></div>';
+
+            // Add to search history
+            if (!searchHistory.includes(input)) {
+                searchHistory.push(input);
+                localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+                updateSearchHistory();
+            }
+
+            try {
+                const searchTerm = input.toLowerCase();
+                const searchResponse = await fetch(`https://en.wikipedia.org/w/api.php?action=query&origin=*&list=search&srsearch=${encodeURIComponent(searchTerm)}&format=json`);
+                const searchData = await searchResponse.json();
+                if (searchData.query.search.length === 0) {
+                    document.getElementById('search-result').innerHTML = '<p>No results found.</p>';
+                    return;
+                }
+                const pageTitle = searchData.query.search[0].title;
+
+                const pageResponse = await fetch(`https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts|pageimages|description&explaintext&titles=${encodeURIComponent(pageTitle)}&format=json&redirects=1&piprop=original`);
+                const pageData = await pageResponse.json();
+                const pages = pageData.query.pages;
+                const pageId = Object.keys(pages)[0];
+                if (pageId === '-1') {
+                    document.getElementById('search-result').innerHTML = '<p>No results found.</p>';
+                    return;
+                }
+                const page = pages[pageId];
+
+                document.getElementById('home').style.display = 'none';
+                document.getElementById('tribute').style.display = 'block';
+                document.getElementById('title').innerText = page.title;
+                document.getElementById('caption').innerText = page.description || '';
+
+                if (page.original && page.original.source) {
+                    document.getElementById('image').src = page.original.source;
+                    document.getElementById('image').style.display = 'block';
+                } else {
+                    document.getElementById('image').style.display = 'none';
+                }
+
+                // Set summary, childhood, career, and achievements text
+                const extract = page.extract.split('\n');
+                document.getElementById('summary-text').innerText = extract[0] || "Summary not available."; // First paragraph as summary
+                document.getElementById('childhood-text').innerText = extract[1] || "Childhood information not available."; // Placeholder text
+                document.getElementById('career-text').innerText = extract[2] || "Career information not available."; // Placeholder text
+                document.getElementById('achievements-text').innerText = extract[3] || "Achievements information not available."; // Placeholder text
+
+                const imagesResponse = await fetch(`https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=images&titles=${encodeURIComponent(page.title)}&format=json`);
+                const imagesData = await imagesResponse.json();
+                const imagesPage = imagesData.query.pages[pageId];
+
+                const photoGallery = document.getElementById('photo-gallery');
+                photoGallery.innerHTML = '';
+
+                if (imagesPage.images) {
+                    const imageTitles = imagesPage.images.slice(0, 5).map(img => img.title);
+
+                    for (const title of imageTitles) {
+                        const imageInfoResponse = await fetch(`https://en.wikipedia.org/w/api.php?action=query&origin=*&titles=${encodeURIComponent(title)}&prop=imageinfo&iiprop=url&format=json`);
+                        const imageInfoData = await imageInfoResponse.json();
+                        const imageId = Object.keys(imageInfoData.query.pages)[0];
+                        const imageInfo = imageInfoData.query.pages[imageId];
+
+                        if (imageInfo.imageinfo) {
+                            const imgUrl = imageInfo.imageinfo[0].url;
+                            const img = document.createElement('img');
+                            img.src = imgUrl;
+                            img.alt = title;
+                            photoGallery.appendChild(img);
+                        }
+                    }
+                }
+
+                // Show the "Add to Favorites" button
+                document.getElementById('add-favorite-button').style.display = 'block';
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('search-result').innerHTML = '<p>Error fetching data. Please try again later.</p>';
+            }
+        }
+
+        function updateSearchHistory() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = ''; // Clear existing history
+            searchHistory.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#" onclick="repopulateSearch('${item}')">${item}</a>`;
+                historyList.appendChild(li);
+            });
+        }
+
+        function repopulateSearch(item) {
+            document.getElementById('search-input').value = item;
+            searchPerson();
+        }
+
+        function clearSearchHistory() {
+            localStorage.removeItem('searchHistory');
+            searchHistory.length = 0; // Clear the array
+            updateSearchHistory(); // Update the displayed history
+        }
+
+        function updateFavorites() {
+            const favoritesList = document.getElementById('favorites-list');
+            favoritesList.innerHTML = ''; // Clear existing favorites
+            favorites.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `${item} <button class="remove-favorite-button" onclick="removeFromFavorites('${item}')">Remove</button>`;
+                favoritesList.appendChild(li);
+            });
+        }
+
+        function addToFavorites() {
+            const title = document.getElementById('title').innerText;
+            if (!favorites.includes(title)) {
+                favorites.push(title);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                updateFavorites();
+                alert(`${title} has been added to favorites!`);
+            } else {
+                alert(`${title} is already in your favorites.`);
+            }
+        }
+
+        function removeFromFavorites(title) {
+            const index = favorites.indexOf(title);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                updateFavorites();
+                alert(`${title} has been removed from favorites.`);
+            }
+        }
+
+        function addComment() {
+            const commentInput = document.getElementById('comment-input');
+            const commentText = commentInput.value.trim();
+            if (!commentText) return;
+
+            comments.push(commentText);
+            localStorage.setItem('comments', JSON.stringify(comments));
+            loadComments();
+            commentInput.value = ''; // Clear input
+        }
+
+        function loadComments() {
+            const commentsList = document.getElementById('comments-list');
+            commentsList.innerHTML = ''; // Clear existing comments
+            comments.forEach(comment => {
+                const li = document.createElement('li');
+                li.innerText = comment;
+                commentsList.appendChild(li);
+            });
+        }
+
+        function showHome() {
+            location.reload(); // This will refresh the page
+        }
+
+        function checkEnter(event) {
+            if (event.key === 'Enter') {
+                searchPerson();
+            }
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
+</body>
+
+</html>
